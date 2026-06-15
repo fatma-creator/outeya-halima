@@ -53,13 +53,22 @@
     .inner { padding: 40px 44px 44px; }
 
     @media (max-width: 600px) {
-      .inner { padding: 28px 20px 32px; }
-      .card { width: 100%; }
-      .title-script { font-size: 26px; }
-      .title-ar { font-size: 20px; }
-      .event-bar { font-size: 12px; }
+      body { padding: 20px 12px; }
+      .inner { padding: 24px 18px 28px; }
+      .card { width: 100%; max-width: 100%; }
+      .title-script { font-size: 28px; }
+      .title-ar { font-size: 22px; }
+      .top-orn { letter-spacing: 10px; }
+      .sep { gap: 10px; }
+      .event-bar { font-size: 12px; padding: 10px 12px; }
+      .section-lbl { font-size: 8px; letter-spacing: 3px; }
+      .field-lbl { font-size: 8px; letter-spacing: 2px; }
       input[type="text"], input[type="tel"] { font-size: 16px; }
-      .btn-submit { font-size: 10px; letter-spacing: 4px; padding: 14px; }
+      .acc-header { flex-wrap: wrap; gap: 8px; }
+      .btn-add { font-size: 10px; padding: 7px 12px; }
+      .btn-submit { font-size: 10px; letter-spacing: 3px; padding: 14px; }
+      .success-script { font-size: 32px; }
+      .success-name { font-size: 18px; }
     }
 
     .header { text-align: center; margin-bottom: 24px; }
@@ -366,7 +375,37 @@
   <div class="gold-rule"></div>
 </div>
 
+<div id="yt"></div>
+<iframe id="yt-frame"
+  src="about:blank"
+  allow="autoplay; encrypted-media"
+  style="position:fixed;top:-999px;left:-999px;width:1px;height:1px;opacity:0;pointer-events:none;border:none;">
+</iframe>
+<script src="https://www.youtube.com/iframe_api"></script>
 <script>
+  var ytConf;
+
+  function onYouTubeIframeAPIReady() {
+    var savedPos = parseInt(localStorage.getItem('music_pos')) || 13;
+    ytConf = new YT.Player('yt-frame', {
+      videoId: '7YBI9cX5geI',
+      playerVars: { controls:0, loop:1, playlist:'7YBI9cX5geI', rel:0, start: savedPos },
+      events: {
+        onReady: function(e) {
+          e.target.setVolume(50);
+          e.target.playVideo();
+        }
+      }
+    });
+  }
+
+  // Sauvegarde position quand on quitte
+  window.addEventListener('beforeunload', function() {
+    if (ytConf && ytConf.getCurrentTime) {
+      localStorage.setItem('music_pos', Math.floor(ytConf.getCurrentTime()));
+    }
+  });
+</script>
   var accCount = 0;
 
   if (localStorage.getItem('outeya_confirmed') === 'true') {
@@ -376,7 +415,6 @@
 
   document.getElementById('btnAdd').addEventListener('click', function() {
     accCount++;
-    document.getElementById('accEmpty').style.display = 'none';
     var list = document.getElementById('accList');
     var item = document.createElement('div');
     item.className = 'acc-item';
@@ -390,8 +428,6 @@
   function rmAcc(id) {
     var el = document.getElementById('a' + id);
     if (el) el.remove();
-    if (!document.querySelector('.acc-item'))
-      document.getElementById('accEmpty').style.display = 'block';
   }
 
   document.getElementById('form').addEventListener('submit', function(e) {
