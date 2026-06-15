@@ -128,8 +128,10 @@
       justify-content: center; align-items: flex-start;
       padding: 56px 16px 64px;
       background: linear-gradient(170deg, #FDF4F6 0%, #F5E4E8 50%, #EDD8DC 100%);
-      opacity:1; visibility:visible;
+      opacity:0; visibility:hidden;
+      transition: opacity 1s ease, visibility 1s ease;
     }
+    #scene.show { opacity:1; visibility:visible; }
 
     /* Carte */
     .card {
@@ -144,13 +146,10 @@
         0 0 0 12px rgba(196,162,106,.4),
         0 30px 80px rgba(80,40,30,.14),
         0 60px 120px rgba(80,40,30,.08);
-      animation: cardIn 1.2s cubic-bezier(.22,1,.36,1) forwards;
+      transform: translateY(40px) scale(.98);
+      transition: transform 1.4s cubic-bezier(.22,1,.36,1);
     }
-
-    @keyframes cardIn {
-      from { transform: translateY(40px) scale(.98); opacity:0; }
-      to   { transform: translateY(0) scale(1); opacity:1; }
-    }
+    #scene.show .card { transform: translateY(0) scale(1); }
 
     /* Règle or haut & bas */
     .gold-rule {
@@ -437,6 +436,16 @@
   document.getElementById('openBtn').addEventListener('click', function() {
     var intro = document.getElementById('intro');
     intro.classList.add('opening');
+
+    // Lance musique à 0:13 au clic
+    if (yt && yt.playVideo) {
+      yt.seekTo(13, true);
+      yt.setVolume(50);
+      yt.playVideo();
+    } else {
+      document.getElementById('yt-frame').src =
+        "https://www.youtube.com/embed/7YBI9cX5geI?enablejsapi=1&autoplay=1&controls=0&loop=1&playlist=7YBI9cX5geI&rel=0&mute=0&start=13";
+    }
 
     setTimeout(function() {
       intro.classList.add('fade-out');
