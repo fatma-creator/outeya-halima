@@ -388,41 +388,22 @@
 <!-- overlay transparent pour débloquer l'autoplay au premier clic -->
 <div id="tap-unlock" style="position:fixed;inset:0;z-index:999;cursor:default;"></div>
 
-<script src="https://www.youtube.com/iframe_api"></script>
 <script>
-  var ytConf;
-  var ytReady = false;
+  var savedPos = parseInt(localStorage.getItem('music_pos')) || 13;
 
-  function onYouTubeIframeAPIReady() {
-    var savedPos = parseInt(localStorage.getItem('music_pos')) || 13;
-    ytConf = new YT.Player('yt-frame', {
-      videoId: '7YBI9cX5geI',
-      playerVars: { controls:0, loop:1, playlist:'7YBI9cX5geI', rel:0, start: savedPos },
-      events: {
-        onReady: function(e) {
-          e.target.setVolume(50);
-          ytReady = true;
-          // essaie directement, si bloqué l'overlay prendra le relais
-          try { e.target.playVideo(); } catch(err) {}
-        }
-      }
-    });
-  }
-
-  // Au premier clic n'importe où sur la page → lance la musique
+  // Au premier clic → charge l'iframe avec autoplay
   document.getElementById('tap-unlock').addEventListener('click', function() {
-    if (ytConf && ytConf.playVideo) {
-      ytConf.playVideo();
-    }
-    this.remove(); // retire l'overlay après le premier clic
-  }, { once: true });
+    var frame = document.getElementById('yt-frame');
+    frame.src = 'https://www.youtube.com/embed/7YBI9cX5geI?autoplay=1&start=' + savedPos + '&loop=1&playlist=7YBI9cX5geI&controls=0&rel=0&mute=0';
+    this.remove();
 
-  // Sauvegarde position quand on quitte
-  window.addEventListener('beforeunload', function() {
-    if (ytConf && ytConf.getCurrentTime) {
-      localStorage.setItem('music_pos', Math.floor(ytConf.getCurrentTime()));
-    }
-  });
+    // sauvegarde position approximative
+    var startTime = Date.now();
+    window.addEventListener('beforeunload', function() {
+      var elapsed = Math.floor((Date.now() - startTime) / 1000) + savedPos;
+      localStorage.setItem('music_pos', elapsed);
+    });
+  }, { once: true });
 </script>
 <script>
   var accCount = 0;

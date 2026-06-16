@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>وطية حليمة</title>
   <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Great+Vibes&display=swap" rel="stylesheet"/>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <style>
     *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
 
@@ -299,46 +298,21 @@
   allowfullscreen>
 </iframe>
 
-<script src="https://www.youtube.com/iframe_api"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script>
-  var yt;
-  var pendingPlay = false;
-
-  function onYouTubeIframeAPIReady() {
-    yt = new YT.Player('yt-frame', {
-      videoId: '7YBI9cX5geI',
-      playerVars: { controls:0, loop:1, playlist:'7YBI9cX5geI', rel:0, start:13 },
-      events: {
-        onReady: function(e) {
-          e.target.setVolume(50);
-          // si le bouton a été cliqué avant que le player soit prêt
-          if (pendingPlay) {
-            e.target.seekTo(13, true);
-            e.target.playVideo();
-          }
-        }
-      }
-    });
-  }
-
   document.getElementById('openBtn').addEventListener('click', function() {
     var intro = document.getElementById('intro');
     intro.classList.add('opening');
 
-    // Lance musique
-    if (yt && yt.playVideo) {
-      yt.seekTo(13, true);
-      yt.playVideo();
-    } else {
-      // player pas encore prêt, on marque pour lancer dès qu'il est prêt
-      pendingPlay = true;
-    }
+    // Lance la musique via src directe avec autoplay
+    var frame = document.getElementById('yt-frame');
+    frame.src = 'https://www.youtube.com/embed/7YBI9cX5geI?autoplay=1&start=13&loop=1&playlist=7YBI9cX5geI&controls=0&rel=0&mute=0';
 
-    // Sauvegarde position pour que confirmation.html reprenne
+    // Sauvegarde position approximative pour confirmation.html
+    var startTime = Date.now();
     window.addEventListener('beforeunload', function() {
-      if (yt && yt.getCurrentTime) {
-        localStorage.setItem('music_pos', Math.floor(yt.getCurrentTime()));
-      }
+      var elapsed = Math.floor((Date.now() - startTime) / 1000) + 13;
+      localStorage.setItem('music_pos', elapsed);
     });
 
     setTimeout(function() {
