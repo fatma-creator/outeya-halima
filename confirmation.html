@@ -378,32 +378,26 @@
   <div class="gold-rule"></div>
 </div>
 
-<div id="yt"></div>
-<iframe id="yt-frame"
-  src="about:blank"
-  allow="autoplay; encrypted-media"
-  style="position:fixed;top:-999px;left:-999px;width:1px;height:1px;opacity:0;pointer-events:none;border:none;">
-</iframe>
-
-<!-- overlay transparent pour débloquer l'autoplay au premier clic -->
-<div id="tap-unlock" style="position:fixed;inset:0;z-index:999;cursor:default;"></div>
+<audio id="bgMusic" loop preload="auto" style="display:none;">
+  <source src="music.mp3.mp3" type="audio/mpeg"/>
+</audio>
 
 <script>
+  var audio = document.getElementById('bgMusic');
   var savedPos = parseInt(localStorage.getItem('music_pos')) || 13;
+  audio.currentTime = savedPos;
 
-  // Au premier clic → charge l'iframe avec autoplay
-  document.getElementById('tap-unlock').addEventListener('click', function() {
-    var frame = document.getElementById('yt-frame');
-    frame.src = 'https://www.youtube.com/embed/7YBI9cX5geI?autoplay=1&start=' + savedPos + '&loop=1&playlist=7YBI9cX5geI&controls=0&rel=0&mute=0';
-    this.remove();
+  // Essaie de démarrer automatiquement
+  audio.play().catch(function() {
+    // Si bloqué par le navigateur, démarre au premier clic
+    document.addEventListener('click', function() {
+      audio.play();
+    }, { once: true });
+  });
 
-    // sauvegarde position approximative
-    var startTime = Date.now();
-    window.addEventListener('beforeunload', function() {
-      var elapsed = Math.floor((Date.now() - startTime) / 1000) + savedPos;
-      localStorage.setItem('music_pos', elapsed);
-    });
-  }, { once: true });
+  window.addEventListener('beforeunload', function() {
+    localStorage.setItem('music_pos', Math.floor(audio.currentTime));
+  });
 </script>
 <script>
   var accCount = 0;
