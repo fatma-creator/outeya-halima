@@ -302,14 +302,21 @@
 <script src="https://www.youtube.com/iframe_api"></script>
 <script>
   var yt;
-  var musicStarted = false;
+  var pendingPlay = false;
 
   function onYouTubeIframeAPIReady() {
     yt = new YT.Player('yt-frame', {
       videoId: '7YBI9cX5geI',
       playerVars: { controls:0, loop:1, playlist:'7YBI9cX5geI', rel:0, start:13 },
       events: {
-        onReady: function(e) { e.target.setVolume(50); }
+        onReady: function(e) {
+          e.target.setVolume(50);
+          // si le bouton a été cliqué avant que le player soit prêt
+          if (pendingPlay) {
+            e.target.seekTo(13, true);
+            e.target.playVideo();
+          }
+        }
       }
     });
   }
@@ -318,10 +325,13 @@
     var intro = document.getElementById('intro');
     intro.classList.add('opening');
 
-    // Lance musique à 0:13
+    // Lance musique
     if (yt && yt.playVideo) {
       yt.seekTo(13, true);
       yt.playVideo();
+    } else {
+      // player pas encore prêt, on marque pour lancer dès qu'il est prêt
+      pendingPlay = true;
     }
 
     // Sauvegarde position pour que confirmation.html reprenne
