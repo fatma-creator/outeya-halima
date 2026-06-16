@@ -295,7 +295,7 @@
   <div class="inner">
 
     <div class="header">
-      <p class="top-orn">✦ &nbsp; ✦ &nbsp; ✦</p>
+      <p class="top-orn"></p>
       <div class="sep">
         <div class="sep-line"></div><div class="sep-gem"></div><div class="sep-line"></div>
       </div>
@@ -384,12 +384,15 @@
 
 <script>
   var audio = document.getElementById('bgMusic');
-  var savedPos = parseInt(localStorage.getItem('music_pos')) || 13;
-  audio.currentTime = savedPos;
+
+  // Attend que l'audio soit prêt avant le seek (important sur mobile)
+  audio.addEventListener('canplay', function() {
+    audio.currentTime = 13;
+  }, { once: true });
+  audio.load();
 
   // Essaie de démarrer automatiquement
   audio.play().catch(function() {
-    // Si bloqué par le navigateur, démarre au premier clic
     document.addEventListener('click', function() {
       audio.play();
     }, { once: true });
