@@ -9,14 +9,17 @@
     *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
 
     :root {
-      --ivory:   #FDF6F8;
-      --cream:   #F9EEF1;
-      --gold:    #C9A882;
-      --gold-lt: #E2C9A8;
-      --gold-dk: #8C6E38;
-      --text:    #4A2830;
-      --muted:   #A08890;
-      --border:  #EDD8DC;
+      --ivory:       #FDF6F8;
+      --cream:       #F9EEF1;
+      --gold:        #C9A882;
+      --gold-lt:     #E2C9A8;
+      --gold-dk:     #8C6E38;
+      --text:        #4A2830;
+      --muted:       #A08890;
+      --border:      #EDD8DC;
+      --bordeaux:    #7B1C2E;
+      --bordeaux-lt: #A63248;
+      --bordeaux-dk: #4A0E1A;
     }
 
     html, body { width:100%; min-height:100%; }
@@ -46,8 +49,8 @@
     .gold-rule {
       height: 3px;
       background: linear-gradient(90deg,
-        transparent, var(--gold-lt) 10%, var(--gold) 35%,
-        var(--gold-dk) 50%, var(--gold) 65%, var(--gold-lt) 90%, transparent);
+        transparent, var(--bordeaux-lt) 10%, var(--bordeaux) 35%,
+        var(--bordeaux-dk) 50%, var(--bordeaux) 65%, var(--bordeaux-lt) 90%, transparent);
     }
 
     .inner { padding: 40px 44px 44px; }
@@ -75,7 +78,7 @@
 
     .top-orn {
       font-size: 11px; letter-spacing: 14px;
-      color: var(--gold); margin-bottom: 20px; direction: ltr;
+      color: var(--bordeaux); margin-bottom: 20px; direction: ltr;
     }
 
     .sep {
@@ -83,16 +86,16 @@
     }
     .sep-line {
       flex: 1; height: 1px;
-      background: linear-gradient(90deg, transparent, var(--gold-lt), transparent);
+      background: linear-gradient(90deg, transparent, var(--bordeaux-lt), transparent);
     }
     .sep-gem {
-      width: 6px; height: 6px; background: var(--gold);
+      width: 6px; height: 6px; background: var(--bordeaux);
       transform: rotate(45deg); flex-shrink: 0;
     }
 
     .title-script {
       font-family: 'Great Vibes', cursive;
-      font-size: 34px; color: var(--gold); direction: ltr; margin-bottom: 4px;
+      font-size: 34px; color: var(--bordeaux); direction: ltr; margin-bottom: 4px;
     }
 
     .title-ar {
@@ -111,7 +114,7 @@
 
     .section-lbl {
       font-size: 9px; letter-spacing: 5px;
-      text-transform: uppercase; color: var(--gold-dk);
+      text-transform: uppercase; color: var(--bordeaux);
       direction: ltr; margin-bottom: 18px;
       padding-bottom: 8px;
       border-bottom: 1px solid var(--border);
@@ -123,7 +126,7 @@
     .field-lbl {
       display: block; font-size: 9px;
       letter-spacing: 3px; text-transform: uppercase;
-      color: var(--gold-dk); direction: ltr; margin-bottom: 8px;
+      color: var(--bordeaux); direction: ltr; margin-bottom: 8px;
       font-weight: 600;
     }
 
@@ -135,7 +138,7 @@
       color: var(--text); outline: none; direction: rtl;
       transition: border-color .2s; border-radius: 0;
     }
-    input:focus { border-bottom-color: var(--gold); }
+    input:focus { border-bottom-color: var(--bordeaux); }
     input::placeholder { color: var(--gold-lt); font-style: italic; font-size: 15px; }
 
     /* Accompagnants */
@@ -151,15 +154,15 @@
 
     .btn-add {
       background: transparent;
-      border: 1px solid #C8828A;
-      color: #C8828A;
+      border: 1px solid var(--bordeaux);
+      color: var(--bordeaux);
       font-family: 'Cormorant Garamond', serif;
       font-size: 11px; letter-spacing: 3px;
       text-transform: uppercase;
       padding: 7px 16px; cursor: pointer;
       transition: all .2s;
     }
-    .btn-add:hover { background: #C8828A; color: var(--ivory); }
+    .btn-add:hover { background: var(--bordeaux); color: var(--ivory); }
 
     .acc-item {
       display: flex; align-items: center;
@@ -173,7 +176,7 @@
       color: var(--text); outline: none; direction: rtl;
       transition: border-color .2s;
     }
-    .acc-item input:focus { border-bottom-color: var(--gold); }
+    .acc-item input:focus { border-bottom-color: var(--bordeaux); }
     .acc-item input::placeholder { color: var(--gold-lt); font-style: italic; }
 
     .btn-rm {
@@ -182,7 +185,7 @@
       cursor: pointer; flex-shrink: 0;
       transition: color .2s; padding: 0 2px; line-height:1;
     }
-    .btn-rm:hover { color: var(--gold); }
+    .btn-rm:hover { color: var(--bordeaux); }
 
     .acc-empty {
       font-size: 13px; font-style: italic;
@@ -192,14 +195,14 @@
 
     .btn-submit {
       width: 100%; padding: 15px;
-      background: linear-gradient(135deg, #C8828A, #A06070);
+      background: linear-gradient(135deg, var(--bordeaux-lt), var(--bordeaux), var(--bordeaux-dk));
       border: none; color: #fff;
       font-family: 'Cormorant Garamond', serif;
       font-size: 11px; font-weight: 600;
       letter-spacing: 5px; text-transform: uppercase;
       cursor: pointer; margin-top: 22px;
       transition: opacity .2s, transform .1s;
-      box-shadow: 0 4px 16px rgba(200,130,138,.25);
+      box-shadow: 0 4px 16px rgba(123,28,46,.30);
     }
     .btn-submit:hover { opacity: .88; transform: translateY(-1px); }
     .btn-submit:active { transform: translateY(0); }
@@ -216,12 +219,12 @@
 
     .success-mark {
       font-size: 11px; letter-spacing: 14px;
-      color: var(--gold); margin-bottom: 20px; direction: ltr;
+      color: var(--bordeaux); margin-bottom: 20px; direction: ltr;
     }
 
     .success-script {
       font-family: 'Great Vibes', cursive;
-      font-size: 40px; color: var(--gold); margin-bottom: 8px;
+      font-size: 40px; color: var(--bordeaux); margin-bottom: 8px;
     }
 
     .success-name {
@@ -248,7 +251,7 @@
 
     .success-acc-lbl {
       font-size: 8px; letter-spacing: 4px;
-      text-transform: uppercase; color: var(--gold-dk);
+      text-transform: uppercase; color: var(--bordeaux);
       margin-bottom: 10px; direction: ltr; font-weight: 600;
     }
 
@@ -267,7 +270,7 @@
     .back {
       display: inline-block; margin-top: 20px;
       font-size: 10px; letter-spacing: 3px;
-      text-transform: uppercase; color: var(--gold);
+      text-transform: uppercase; color: var(--bordeaux);
       text-decoration: none; direction: ltr;
     }
     .back:hover { color: var(--text); }
